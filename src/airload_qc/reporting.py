@@ -91,9 +91,10 @@ th{{background:#f4f1ff}} .ok{{color:#08783e}} .bad{{color:#b42318}}
 <div class="notice">{html.escape(DISCLAIMER)}</div>
 <h2>Aircraft and limits</h2>
 <table>
-<tr><th>Model</th><th>Basic weight</th><th>Target CG</th><th>CG range</th><th>Classification</th></tr>
+<tr><th>Model</th><th>Basic weight</th><th>Basic CG (initial)</th><th>Target CG</th><th>CG range</th><th>Classification</th></tr>
 <tr><td>{html.escape(scenario.aircraft.name)}</td>
 <td>{scenario.aircraft.basic_weight_kg:.1f} kg</td>
+<td>{scenario.aircraft.basic_arm_m:.3f} m</td>
 <td>{scenario.aircraft.target_cg_m:.3f} m</td>
 <td>{scenario.aircraft.cg_min_m:.3f}–{scenario.aircraft.cg_max_m:.3f} m</td>
 <td>{html.escape(scenario.aircraft.classification)}</td></tr>
@@ -127,6 +128,7 @@ def _solution_html(
     css = "ok" if solution.feasible else "bad"
     return f"""
 <h2>{html.escape(solution.method)}</h2>
+<p><span class="badge">EXPERIMENTAL RESULT</span></p>
 <p class="{css}"><strong>{html.escape(solution.status)}</strong></p>
 <table>
 <tr><th>Total weight</th><th>Total moment</th><th>CG</th><th>CG error</th><th>Objective</th><th>Runtime</th></tr>

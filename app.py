@@ -197,7 +197,7 @@ def loading_figure(scenario, solution):
 def solution_card(solution, scenario):
     status = "✅ Feasible" if solution.feasible else "❌ Not feasible"
     st.subheader(solution.method)
-    st.caption(f"{status} · {solution.status}")
+    st.caption(f"{status} · {solution.status} · EXPERIMENTAL RESULT")
     cols = st.columns(4)
     cols[0].metric("CG", f"{solution.cg_m:.4f} m")
     cols[1].metric("Target error", f"{solution.cg_error_m:.4f} m")
@@ -230,6 +230,7 @@ with st.sidebar:
         st.session_state.scenario = demo_scenario()
         clear_results()
         st.rerun()
+    st.caption("The QAOA settings below are ASSUMPTIONS, not aircraft data.")
     reps = st.select_slider("QAOA circuit depth (p)", options=[1, 2], value=1)
     shots = st.select_slider("Measurement shots", options=[256, 512, 1024, 2048], value=1024)
     maxiter = st.slider("Classical parameter iterations", 10, 100, 40, 5)

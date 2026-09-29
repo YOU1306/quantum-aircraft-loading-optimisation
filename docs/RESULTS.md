@@ -1,6 +1,6 @@
 # Recorded Local Results
 
-Generated: 2026-09-29 15:14:42 UTC
+Generated: 2026-09-29 15:22:41 UTC
 
 Input classification: **SYNTHETIC DATA**  
 Output classification: **EXPERIMENTAL RESULT**
@@ -32,7 +32,7 @@ same feasible candidate as exact enumeration in this run:
 - QUBO quadratic terms: 34;
 - transpiled/decomposed circuit depth reported by the application: 33;
 - selected feasible-sample probability: 0.03515625;
-- measured local QAOA workflow runtime: approximately 1.63 seconds;
+- measured local QAOA workflow runtime: approximately 1.28 seconds;
 - objective gap from exact: zero for this run.
 
 This single small simulator result does **not** establish quantum advantage,
