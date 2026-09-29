@@ -1,6 +1,6 @@
 # Recorded Local Results
 
-Generated: 2026-09-29 15:22:41 UTC
+Generated: 2026-09-29 15:25:13 UTC
 
 Input classification: **SYNTHETIC DATA**  
 Output classification: **EXPERIMENTAL RESULT**
@@ -52,13 +52,21 @@ candidate placed the late batch aft without moving the two existing items:
 
 This is a result for the synthetic demonstrator only.
 
-## Classical scaling record
+## Scaling record
 
 Exact enumeration and CP-SAT were run for two through six synthetic items.
-Both returned matching objective values in every recorded case. QAOA was
-deliberately not run in this saved scaling batch; no missing quantum result is
-inferred or fabricated. The Streamlit application can run QAOA for selected
-small sizes and records those measurements separately.
+Both returned matching objective values in every recorded case. QAOA used
+\(p=1\), 512 shots, 25 iterations and seed 42 for the two- and three-item
+cases:
+
+- two items / 10 QUBO bits: feasible, zero objective gap in this run,
+  approximately 0.76 seconds;
+- three items / 12 QUBO bits: feasible, zero objective gap in this run,
+  approximately 1.00 second.
+
+QAOA was not run for the 14-, 18- or 20-bit cases in the saved batch. They are
+explicitly recorded as not run rather than inferred. Two small successful
+points do not establish a scaling trend or quantum advantage.
 
 ## Safe interpretation
 

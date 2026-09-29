@@ -27,7 +27,11 @@ def main() -> int:
         QaoaConfig(reps=1, shots=1024, maxiter=40, seed=42),
     )
     late = run_late_change(exact, run_quantum=False)
-    scaling = run_scaling_benchmark([2, 3, 4, 5, 6], qaoa_max_items=0)
+    scaling = run_scaling_benchmark(
+        [2, 3, 4, 5, 6],
+        qaoa_max_items=3,
+        qaoa_config=QaoaConfig(reps=1, shots=512, maxiter=25, seed=42),
+    )
 
     payload = {
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
