@@ -1,0 +1,3 @@
+id,description,weight_kg,allowed_stations,classification,is_late
+C001,Container Alpha,60,FWD|AFT,SYNTHETIC DATA,false
+B002,Baggage Batch Bravo,40,FWD|AFT,SYNTHETIC DATA,false

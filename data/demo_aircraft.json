@@ -1,0 +1,27 @@
+{
+  "name": "Synthetic Twin-Hold Demonstrator",
+  "classification": "SYNTHETIC DATA",
+  "basic_weight_kg": 1000,
+  "basic_arm_m": 10.0,
+  "max_payload_kg": 200,
+  "cg_min_m": 9.2,
+  "cg_max_m": 10.8,
+  "target_cg_m": 10.0,
+  "stations": [
+    {
+      "id": "FWD",
+      "name": "Forward hold",
+      "arm_m": 7.0,
+      "max_weight_kg": 100,
+      "classification": "SYNTHETIC DATA"
+    },
+    {
+      "id": "AFT",
+      "name": "Aft hold",
+      "arm_m": 13.0,
+      "max_weight_kg": 100,
+      "classification": "SYNTHETIC DATA"
+    }
+  ],
+  "notice": "Teaching data only. It does not represent a certificated aircraft or airline configuration."
+}

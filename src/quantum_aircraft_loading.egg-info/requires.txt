@@ -1,0 +1,11 @@
+numpy<3,>=2.0
+ortools<10,>=9.10
+pandas<4,>=2.2
+plotly<7,>=6
+qiskit<3,>=2.1
+qiskit-aer<1,>=0.17
+qiskit-optimization<1,>=0.7
+streamlit<2,>=1.40
+
+[dev]
+pytest<10,>=8
