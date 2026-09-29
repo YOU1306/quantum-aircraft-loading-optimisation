@@ -1,0 +1,202 @@
+{
+  "generated_utc": "2026-09-29T15:14:42+00:00",
+  "result_classification": "EXPERIMENTAL RESULT",
+  "input_classification": "SYNTHETIC DATA",
+  "baseline": {
+    "exact": {
+      "method": "Exact enumeration",
+      "status": "FEASIBLE",
+      "assignment": {
+        "C001": "FWD",
+        "B002": "AFT"
+      },
+      "total_weight_kg": 1100.0,
+      "total_moment_kg_m": 10940.0,
+      "cg_m": 9.945454545454545,
+      "cg_error_m": 0.054545454545454675,
+      "objective": 0.0011621900826446318,
+      "feasible": true,
+      "violations": [],
+      "runtime_s": 0.00012580002658069134,
+      "metadata": {
+        "assignments_evaluated": 4,
+        "feasible_assignments": 4,
+        "global_optimum_verified": true
+      }
+    },
+    "cp_sat": {
+      "method": "OR-Tools CP-SAT",
+      "status": "FEASIBLE",
+      "assignment": {
+        "C001": "AFT",
+        "B002": "FWD"
+      },
+      "total_weight_kg": 1100.0,
+      "total_moment_kg_m": 11060.0,
+      "cg_m": 10.054545454545455,
+      "cg_error_m": 0.054545454545454675,
+      "objective": 0.0011621900826446318,
+      "feasible": true,
+      "violations": [],
+      "runtime_s": 0.023983099963515997,
+      "metadata": {
+        "cp_sat_status": "OPTIMAL",
+        "global_optimum_verified": true,
+        "moves": 0
+      }
+    },
+    "qaoa": {
+      "method": "QAOA (p=1)",
+      "status": "FEASIBLE",
+      "assignment": {
+        "C001": "FWD",
+        "B002": "AFT"
+      },
+      "total_weight_kg": 1100.0,
+      "total_moment_kg_m": 10940.0,
+      "cg_m": 9.945454545454545,
+      "cg_error_m": 0.054545454545454675,
+      "objective": 0.0011621900826446318,
+      "feasible": true,
+      "violations": [],
+      "runtime_s": 1.6287368000485003,
+      "metadata": {
+        "assignment_variables": 4,
+        "constraints": 4,
+        "qubo_variables_including_slack": 10,
+        "qubo_quadratic_terms": 34,
+        "penalty": 20.0,
+        "reps": 1,
+        "shots": 1024,
+        "maxiter": 40,
+        "seed": 42,
+        "simulator": "Qiskit Aer SamplerV2 (statevector method, shot sampling)",
+        "circuit_qubits": 10,
+        "circuit_depth": 33,
+        "selected_sample_probability": 0.03515625,
+        "feasible_samples_reported": 4,
+        "qiskit_status": "OptimizationResultStatus.SUCCESS",
+        "optimal_parameters": [
+          2.770994885357443,
+          -0.38659029575345016
+        ],
+        "raw_qaoa_objective": 0.0011621900826445652,
+        "selected_sample_qiskit_status": "OptimizationResultStatus.SUCCESS"
+      }
+    }
+  },
+  "late_change": {
+    "current_loading_still_feasible": true,
+    "current_loading_violations": [],
+    "revised_classical": {
+      "method": "Exact enumeration",
+      "status": "FEASIBLE",
+      "assignment": {
+        "C001": "FWD",
+        "B002": "AFT",
+        "L003": "AFT"
+      },
+      "total_weight_kg": 1120.0,
+      "total_moment_kg_m": 11200.0,
+      "cg_m": 10.0,
+      "cg_error_m": 0.0,
+      "objective": 0.0,
+      "feasible": true,
+      "violations": [],
+      "runtime_s": 0.0001004999503493309,
+      "metadata": {
+        "assignments_evaluated": 8,
+        "feasible_assignments": 6,
+        "global_optimum_verified": true
+      }
+    }
+  },
+  "scaling_classical": [
+    {
+      "items": 2,
+      "assignment_variables": 4,
+      "qubo_variables": 10,
+      "data_classification": "SYNTHETIC DATA",
+      "result_classification": "EXPERIMENTAL RESULT",
+      "exact_objective": 0.001251557493770012,
+      "exact_runtime_s": 3.539997851476073e-05,
+      "cp_sat_objective": 0.001251557493770012,
+      "cp_sat_runtime_s": 0.0014619000139646232,
+      "cp_sat_feasible": true,
+      "qaoa_run": false,
+      "qaoa_objective": null,
+      "qaoa_runtime_s": null,
+      "qaoa_feasible": null,
+      "qaoa_gap": null
+    },
+    {
+      "items": 3,
+      "assignment_variables": 6,
+      "qubo_variables": 12,
+      "data_classification": "SYNTHETIC DATA",
+      "result_classification": "EXPERIMENTAL RESULT",
+      "exact_objective": 0.0,
+      "exact_runtime_s": 0.00014319998444989324,
+      "cp_sat_objective": 0.0,
+      "cp_sat_runtime_s": 0.0022407000069506466,
+      "cp_sat_feasible": true,
+      "qaoa_run": false,
+      "qaoa_objective": null,
+      "qaoa_runtime_s": null,
+      "qaoa_feasible": null,
+      "qaoa_gap": null
+    },
+    {
+      "items": 4,
+      "assignment_variables": 8,
+      "qubo_variables": 14,
+      "data_classification": "SYNTHETIC DATA",
+      "result_classification": "EXPERIMENTAL RESULT",
+      "exact_objective": 0.001082063711911344,
+      "exact_runtime_s": 0.00016679998952895403,
+      "cp_sat_objective": 0.001082063711911344,
+      "cp_sat_runtime_s": 0.001671800040639937,
+      "cp_sat_feasible": true,
+      "qaoa_run": false,
+      "qaoa_objective": null,
+      "qaoa_runtime_s": null,
+      "qaoa_feasible": null,
+      "qaoa_gap": null
+    },
+    {
+      "items": 5,
+      "assignment_variables": 10,
+      "qubo_variables": 18,
+      "data_classification": "SYNTHETIC DATA",
+      "result_classification": "EXPERIMENTAL RESULT",
+      "exact_objective": 0.0010099468543522257,
+      "exact_runtime_s": 0.00034689996391534805,
+      "cp_sat_objective": 0.0010099468543522257,
+      "cp_sat_runtime_s": 0.002406999992672354,
+      "cp_sat_feasible": true,
+      "qaoa_run": false,
+      "qaoa_objective": null,
+      "qaoa_runtime_s": null,
+      "qaoa_feasible": null,
+      "qaoa_gap": null
+    },
+    {
+      "items": 6,
+      "assignment_variables": 12,
+      "qubo_variables": 20,
+      "data_classification": "SYNTHETIC DATA",
+      "result_classification": "EXPERIMENTAL RESULT",
+      "exact_objective": 0.0,
+      "exact_runtime_s": 0.0006616000318899751,
+      "cp_sat_objective": 0.0,
+      "cp_sat_runtime_s": 0.0019687999738380313,
+      "cp_sat_feasible": true,
+      "qaoa_run": false,
+      "qaoa_objective": null,
+      "qaoa_runtime_s": null,
+      "qaoa_feasible": null,
+      "qaoa_gap": null
+    }
+  ],
+  "claims_notice": "These local simulator results do not establish quantum advantage, hardware speed, fuel savings, certification or operational readiness."
+}

@@ -1,0 +1,3 @@
+item_id,description,weight_kg,station,arm_m,moment_kg_m,data_classification
+C001,Container Alpha,60.0,FWD,7.0,420.0,SYNTHETIC DATA
+B002,Baggage Batch Bravo,40.0,AFT,13.0,520.0,SYNTHETIC DATA
