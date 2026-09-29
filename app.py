@@ -214,7 +214,7 @@ def solution_card(solution, scenario):
             for item in scenario.items
         ]
     )
-    st.dataframe(assignment, use_container_width=True, hide_index=True)
+    st.dataframe(assignment, width="stretch", hide_index=True)
     if solution.violations:
         st.error("\n".join(solution.violations))
     else:
@@ -226,7 +226,7 @@ scenario: LoadingScenario = st.session_state.scenario
 
 with st.sidebar:
     st.header("Demo controls")
-    if st.button("Reset built-in demo", use_container_width=True):
+    if st.button("Reset built-in demo", width="stretch"):
         st.session_state.scenario = demo_scenario()
         clear_results()
         st.rerun()
@@ -336,12 +336,12 @@ with tabs[1]:
             for station in aircraft.stations
         ]
     )
-    st.dataframe(station_df, use_container_width=True, hide_index=True)
+    st.dataframe(station_df, width="stretch", hide_index=True)
     st.subheader("Cargo manifest")
     edited = st.data_editor(
         manifest_frame(scenario),
         num_rows="dynamic",
-        use_container_width=True,
+        width="stretch",
         disabled=["classification"],
         key="manifest_editor",
     )
@@ -363,11 +363,11 @@ with tabs[2]:
     if issues:
         st.error("\n".join(issues))
     run_cols = st.columns(3)
-    if run_cols[0].button("Run exact verification", type="primary", use_container_width=True):
+    if run_cols[0].button("Run exact verification", type="primary", width="stretch"):
         st.session_state.exact = solve_exact(scenario)
-    if run_cols[1].button("Run OR-Tools baseline", use_container_width=True):
+    if run_cols[1].button("Run OR-Tools baseline", width="stretch"):
         st.session_state.cp_sat = solve_cp_sat(scenario)
-    if run_cols[2].button("Run QAOA / Qiskit", use_container_width=True):
+    if run_cols[2].button("Run QAOA / Qiskit", width="stretch"):
         with st.spinner("Running measured QAOA simulation locally…"):
             st.session_state.quantum = solve_qaoa(scenario, qaoa_config)
 
@@ -386,11 +386,11 @@ with tabs[2]:
             visual_cols = st.columns(2)
             visual_cols[0].plotly_chart(
                 cg_figure(solution, scenario.aircraft),
-                use_container_width=True,
+                width="stretch",
             )
             visual_cols[1].plotly_chart(
                 loading_figure(scenario, solution),
-                use_container_width=True,
+                width="stretch",
             )
     if len(available) >= 2:
         comparison = pd.DataFrame(
@@ -405,7 +405,7 @@ with tabs[2]:
             ]
         )
         st.subheader("Measured comparison")
-        st.dataframe(comparison, use_container_width=True, hide_index=True)
+        st.dataframe(comparison, width="stretch", hide_index=True)
         fig = go.Figure(
             go.Bar(
                 x=comparison["Method"],
@@ -417,7 +417,7 @@ with tabs[2]:
             yaxis_title="Common objective (lower is better)",
             height=340,
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
 with tabs[3]:
     st.subheader("What the quantum solver actually does")
@@ -495,7 +495,7 @@ with tabs[5]:
             )
     if st.session_state.benchmark:
         benchmark_df = pd.DataFrame(st.session_state.benchmark)
-        st.dataframe(benchmark_df, use_container_width=True, hide_index=True)
+        st.dataframe(benchmark_df, width="stretch", hide_index=True)
         fig = go.Figure()
         fig.add_trace(
             go.Scatter(
@@ -530,7 +530,7 @@ with tabs[5]:
             yaxis_type="log",
             height=380,
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
         st.download_button(
             "Download benchmark CSV",
             benchmark_df.to_csv(index=False),
@@ -559,7 +559,7 @@ with tabs[6]:
             report,
             "aircraft_loading_report.html",
             "text/html",
-            use_container_width=True,
+            width="stretch",
         )
         preferred = next((value for value in completed if value.feasible), completed[0])
         cols[1].download_button(
@@ -567,7 +567,7 @@ with tabs[6]:
             assignment_csv(scenario, preferred),
             "candidate_loading.csv",
             "text/csv",
-            use_container_width=True,
+            width="stretch",
         )
         payload = {
             "scenario": scenario.name,
@@ -580,5 +580,5 @@ with tabs[6]:
             json.dumps(payload, indent=2),
             "aircraft_loading_results.json",
             "application/json",
-            use_container_width=True,
+            width="stretch",
         )
