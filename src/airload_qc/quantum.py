@@ -7,7 +7,13 @@ import numpy as np
 
 from .models import LoadingScenario, LoadingSolution
 from .objective import cg_objective
-from .qubo import QuboConfig, build_constrained_program, decode_variables, qubo_summary
+from .qubo import (
+    QuboConfig,
+    build_constrained_program,
+    decode_variables,
+    effective_penalty,
+    qubo_summary,
+)
 from .validation import validate_assignment, validate_scenario
 
 
@@ -17,7 +23,7 @@ class QaoaConfig:
     shots: int = 1024
     maxiter: int = 40
     seed: int = 42
-    qubo_penalty: float = 20.0
+    qubo_penalty: float | None = None
 
 
 def solve_qaoa(
@@ -57,7 +63,10 @@ def solve_qaoa(
         initial_point=initial_point,
         pass_manager=pass_manager,
     )
-    converter = QuadraticProgramToQubo(penalty=config.qubo_penalty)
+    qubo_config = QuboConfig(penalty=config.qubo_penalty)
+    converter = QuadraticProgramToQubo(
+        penalty=effective_penalty(scenario, qubo_config)
+    )
     solver = MinimumEigenOptimizer(qaoa, converters=converter)
 
     try:
@@ -73,6 +82,7 @@ def solve_qaoa(
 
     variable_names = list(result.variable_names)
     feasible_candidates: list[tuple[float, float, dict[str, str], object]] = []
+    feasible_probability = 0.0
     for sample in result.samples:
         values = {
             name: float(value) for name, value in zip(variable_names, sample.x)
@@ -81,6 +91,7 @@ def solve_qaoa(
         feasible, _, balance = validate_assignment(scenario, assignment)
         if feasible:
             objective = cg_objective(scenario, balance, assignment)
+            feasible_probability += float(sample.probability)
             feasible_candidates.append(
                 (objective, -float(sample.probability), assignment, sample)
             )
@@ -98,10 +109,7 @@ def solve_qaoa(
 
     feasible, violations, balance = validate_assignment(scenario, assignment)
     runtime = time.perf_counter() - started
-    summary = qubo_summary(
-        scenario,
-        QuboConfig(penalty=config.qubo_penalty),
-    )
+    summary = qubo_summary(scenario, qubo_config)
     circuit = qaoa.ansatz
     metadata = {
         **summary,
@@ -115,6 +123,7 @@ def solve_qaoa(
         if circuit is not None
         else None,
         "selected_sample_probability": sample_probability,
+        "feasible_sample_probability": feasible_probability,
         "feasible_samples_reported": len(feasible_candidates),
         "qiskit_status": str(result.status),
         "optimal_parameters": _serializable_parameters(

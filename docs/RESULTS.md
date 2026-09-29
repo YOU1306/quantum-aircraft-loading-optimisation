@@ -1,6 +1,6 @@
 # Recorded Local Results
 
-Generated: 2026-09-29 15:25:13 UTC
+Generated: 2026-09-29 15:30:55 UTC
 
 Input classification: **SYNTHETIC DATA**  
 Output classification: **EXPERIMENTAL RESULT**
@@ -30,9 +30,11 @@ same feasible candidate as exact enumeration in this run:
 - assignment variables: 4;
 - QUBO variables including capacity slack: 10;
 - QUBO quadratic terms: 34;
+- calculated constraint penalty: 4.0, exceeding the conservative objective
+  bound of 2.9054752;
 - transpiled/decomposed circuit depth reported by the application: 33;
-- selected feasible-sample probability: 0.03515625;
-- measured local QAOA workflow runtime: approximately 1.28 seconds;
+- total feasible-sample probability: 0.10546875;
+- measured local QAOA workflow runtime: approximately 1.10 seconds;
 - objective gap from exact: zero for this run.
 
 This single small simulator result does **not** establish quantum advantage,
@@ -60,9 +62,9 @@ Both returned matching objective values in every recorded case. QAOA used
 cases:
 
 - two items / 10 QUBO bits: feasible, zero objective gap in this run,
-  approximately 0.76 seconds;
+  approximately 0.48 seconds;
 - three items / 12 QUBO bits: feasible, zero objective gap in this run,
-  approximately 1.00 second.
+  approximately 0.64 seconds.
 
 QAOA was not run for the 14-, 18- or 20-bit cases in the saved batch. They are
 explicitly recorded as not run rather than inferred. Two small successful

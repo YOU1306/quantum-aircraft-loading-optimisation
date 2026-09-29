@@ -132,9 +132,12 @@ produces linear and pairwise quadratic terms. Qiskit Optimization converts the
 exactly-one and capacity constraints into QUBO penalties, adding binary slack
 variables for inequalities.
 
-The demo uses a declared penalty of 20. The software exposes QUBO variable and
-constraint counts and validates the decoded result. Penalty sensitivity should
-be included in any final experimental discussion.
+The software calculates a conservative upper bound for the unconstrained
+objective over every binary pattern, then sets the default constraint penalty
+to one above the next integer ceiling of that bound. A custom penalty is
+rejected if it does not exceed the bound. The UI exposes the bound, penalty,
+QUBO variable count and constraint count; every decoded result is still
+independently validated.
 
 The allowable CG envelope is independently checked after decoding. This is
 deliberate: encoding every operational rule as a QUBO penalty can increase

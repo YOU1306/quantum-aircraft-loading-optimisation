@@ -2,11 +2,20 @@ from __future__ import annotations
 
 import math
 
+import pytest
+
 from airload_qc.classical import solve_cp_sat, solve_exact
 from airload_qc.data import demo_scenario, with_prior_assignment
 from airload_qc.objective import cg_objective
 from airload_qc.physics import calculate_balance, count_moves
-from airload_qc.qubo import build_constrained_program, build_qubo, decode_variables
+from airload_qc.qubo import (
+    QuboConfig,
+    build_constrained_program,
+    build_qubo,
+    decode_variables,
+    effective_penalty,
+    objective_upper_bound,
+)
 from airload_qc.validation import validate_assignment, validate_scenario
 
 
@@ -88,6 +97,13 @@ def test_qubo_generation_and_decode() -> None:
     ambiguous = dict(values)
     ambiguous["x__C001__AFT"] = 1
     assert "C001" not in decode_variables(scenario, ambiguous)
+
+
+def test_qubo_penalty_exceeds_conservative_objective_bound() -> None:
+    scenario = demo_scenario()
+    assert effective_penalty(scenario) > objective_upper_bound(scenario)
+    with pytest.raises(ValueError):
+        effective_penalty(scenario, QuboConfig(penalty=0.01))
 
 
 def test_demo_scenario_is_valid() -> None:

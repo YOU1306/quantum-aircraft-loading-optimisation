@@ -9,7 +9,7 @@ from .models import LoadingScenario
 
 @dataclass(frozen=True)
 class QuboConfig:
-    penalty: float = 20.0
+    penalty: float | None = None
 
 
 def variable_name(item_id: str, station_id: str) -> str:
@@ -44,6 +44,48 @@ def _capacity_unit_kg(scenario: LoadingScenario) -> float:
     ]
     common = reduce(math.gcd, (abs(value) for value in scaled if value))
     return max(common / 10.0, 0.1)
+
+
+def objective_upper_bound(scenario: LoadingScenario) -> float:
+    """Conservative bound over every binary assignment pattern.
+
+    A unit constraint violation must cost more than any possible improvement
+    in the unconstrained objective. The bound deliberately includes invalid
+    patterns in which several station bits are selected for one item.
+    """
+    total_weight = scenario.aircraft.basic_weight_kg + sum(
+        item.weight_kg for item in scenario.items
+    )
+    moment_scale = total_weight * (
+        scenario.aircraft.cg_max_m - scenario.aircraft.cg_min_m
+    )
+    constant_delta = (
+        scenario.aircraft.basic_moment_kg_m
+        - total_weight * scenario.aircraft.target_cg_m
+    )
+    maximum_absolute_delta = abs(constant_delta) + sum(
+        abs(item.weight_kg * scenario.aircraft.station_by_id(station_id).arm_m)
+        for item in scenario.items
+        for station_id in item.allowed_stations
+    )
+    movement_bound = scenario.move_penalty if scenario.prior_assignment else 0.0
+    return (maximum_absolute_delta / moment_scale) ** 2 + movement_bound
+
+
+def effective_penalty(
+    scenario: LoadingScenario,
+    config: QuboConfig | None = None,
+) -> float:
+    config = config or QuboConfig()
+    minimum = float(math.ceil(objective_upper_bound(scenario)) + 1)
+    if config.penalty is None:
+        return minimum
+    if config.penalty <= objective_upper_bound(scenario):
+        raise ValueError(
+            f"QUBO penalty {config.penalty} must exceed the conservative "
+            f"objective bound {objective_upper_bound(scenario):.6f}."
+        )
+    return config.penalty
 
 
 def build_constrained_program(scenario: LoadingScenario):
@@ -143,11 +185,14 @@ def build_qubo(
 
     config = config or QuboConfig()
     constrained = build_constrained_program(scenario)
-    converter = QuadraticProgramToQubo(penalty=config.penalty)
+    converter = QuadraticProgramToQubo(
+        penalty=effective_penalty(scenario, config)
+    )
     return converter.convert(constrained)
 
 
 def qubo_summary(scenario: LoadingScenario, config: QuboConfig | None = None) -> dict:
+    config = config or QuboConfig()
     constrained = build_constrained_program(scenario)
     qubo = build_qubo(scenario, config)
     return {
@@ -155,5 +200,7 @@ def qubo_summary(scenario: LoadingScenario, config: QuboConfig | None = None) ->
         "constraints": constrained.get_num_linear_constraints(),
         "qubo_variables_including_slack": qubo.get_num_binary_vars(),
         "qubo_quadratic_terms": len(qubo.objective.quadratic.to_dict()),
-        "penalty": (config or QuboConfig()).penalty,
+        "objective_upper_bound": objective_upper_bound(scenario),
+        "penalty": effective_penalty(scenario, config),
+        "penalty_basis": "ceil(conservative objective bound) + 1",
     }

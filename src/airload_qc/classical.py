@@ -225,6 +225,14 @@ def solve_cp_sat(
         {
             "cp_sat_status": solver.status_name(status),
             "global_optimum_verified": status == cp_model.OPTIMAL,
+            "integer_objective": solver.objective_value,
+            "integer_best_bound": solver.best_objective_bound,
+            "relative_gap": (
+                abs(solver.objective_value - solver.best_objective_bound)
+                / max(1.0, abs(solver.objective_value))
+            ),
+            "branches": solver.num_branches,
+            "conflicts": solver.num_conflicts,
             "moves": count_moves(scenario, assignment),
         },
     )
